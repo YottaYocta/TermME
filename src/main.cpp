@@ -15,7 +15,7 @@
 
 namespace termed
 {
-  
+
   class editable : public ftxui::ComponentBase
   {
     public:
@@ -35,22 +35,22 @@ namespace termed
           if (i == line_num)
           {
             temp[i].insert(temp[i].size(), " ");
-            lines[i] = ftxui::hflow(
+            lines[i] = ftxui::hbox(
               ftxui::text(fmt::format(fmt::runtime(nu_fmt), std::to_string(i))) | ftxui::color(ftxui::Color::Red),
               ftxui::text(temp[i].substr(0, cursor_pos)),
-              ftxui::text(temp[i].substr(cursor_pos, 1)) | ftxui::inverted,
+              ftxui::text(temp[i].substr(cursor_pos, 1)) | ftxui::inverted | ftxui::focus,
               ftxui::text(temp[i].substr(std::min(temp[i].size(), cursor_pos + 1)))
-            ) | ftxui::focus;
+            );
           }
           else
           {
-            lines[i] = ftxui::hflow(
+            lines[i] = ftxui::hbox(
               ftxui::text(fmt::format(fmt::runtime(nu_fmt), std::to_string(i))) | ftxui::color(ftxui::Color::Red),
               ftxui::text(temp[i])
             );
           }
         }
-        return ftxui::vbox(ftxui::vbox(lines) | ftxui::reflect(click_box), ftxui::filler()) | ftxui::reflect(scroll_box) | ftxui::border;
+        return ftxui::vbox(ftxui::vbox(lines) | ftxui::reflect(click_box) | ftxui::frame, ftxui::filler()) | ftxui::reflect(scroll_box) | ftxui::border;
       }
 
       bool OnEvent(ftxui::Event e) override
