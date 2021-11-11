@@ -50,7 +50,7 @@ namespace termed
             );
           }
         }
-        return ftxui::vbox(ftxui::vbox(lines) | ftxui::reflect(click_box), ftxui::filler()) | ftxui::reflect(scroll_box) | ftxui::frame | ftxui::border;
+        return ftxui::vbox(ftxui::vbox(lines) | ftxui::reflect(click_box), ftxui::filler()) | ftxui::reflect(scroll_box) | ftxui::border;
       }
 
       bool OnEvent(ftxui::Event e) override
@@ -250,7 +250,9 @@ int main(int argc, char* argv[])
   {
     time_t now {std::time(0)};
     tm* localtm {std::localtime(&now)};
-    fio.open(std::string(asctime(localtm)) + ".md", std::ios::out);
+    std::string timestr {std::string(asctime(localtm))};
+    timestr.pop_back();
+    fio.open(timestr + ".md", std::ios::out);
     content.push_back("");
   }
 
