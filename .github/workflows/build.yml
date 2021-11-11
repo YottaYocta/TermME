@@ -1,0 +1,44 @@
+name: Build
+
+on:  
+  workflow_dispatch:
+jobs:
+  build-mac:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: build executable
+        run: |
+          cmake .
+          cmake --build .
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: termed_MacOS
+          path: ./termed*
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: build executable
+        run: |
+          cmake .
+          cmake --build .
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: termed_Windows
+          path: ./termed*
+  build-ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: build executable
+        run: |
+          cmake .
+          cmake --build .
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: termed_Ubuntu
+          path: ./termed*
