@@ -16,10 +16,10 @@
 namespace termed
 {
 
-  class editable : public ftxui::ComponentBase
+  class editable_widget : public ftxui::ComponentBase
   {
     public:
-      editable(std::reference_wrapper<std::vector<std::string>> content) : content_ref {content},
+      editable_widget(std::reference_wrapper<std::vector<std::string>> content) : content_ref {content},
                                                               line_num {0},
                                                               cursor_pos {0},
                                                               max_line_num_length {1} {}
@@ -257,7 +257,7 @@ int main(int argc, char* argv[])
   }
 
   
-  ftxui::Component edit_pane {std::make_shared<termed::editable>(content)};
+  ftxui::Component edit_pane {std::make_shared<termed::editable_widget>(content)};
   ftxui::Component renderer {ftxui::Renderer(edit_pane, [&]{
     return edit_pane->Render();
   })};
