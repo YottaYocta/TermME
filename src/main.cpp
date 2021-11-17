@@ -50,7 +50,7 @@ namespace termed
             );
           }
         }
-        return ftxui::vbox(ftxui::vbox(lines) | ftxui::reflect(click_box) | ftxui::frame, ftxui::filler()) | ftxui::reflect(scroll_box) | ftxui::border;
+        return ftxui::vbox(ftxui::vbox(lines) | ftxui::reflect(box) | ftxui::frame, ftxui::filler()) | ftxui::reflect(box) | ftxui::border;
       }
 
       bool OnEvent(ftxui::Event e) override
@@ -157,7 +157,7 @@ namespace termed
 
       bool OnWheel(ftxui::Event e)
       {
-        if (!scroll_box.Contain(e.mouse().x, e.mouse().y))
+        if (!box.Contain(e.mouse().x, e.mouse().y))
           return false;
         if (e.mouse().button == ftxui::Mouse::WheelDown)
         {
@@ -175,7 +175,7 @@ namespace termed
 
       bool OnClick(ftxui::Event e)
       {
-        if (!click_box.Contain(e.mouse().x, e.mouse().y))
+        if (!box.Contain(e.mouse().x, e.mouse().y))
           return false;
 
         TakeFocus();
@@ -218,8 +218,7 @@ namespace termed
       int max_line_num_length {};
       std::size_t cursor_pos; 
       std::size_t line_num;
-      ftxui::Box scroll_box;
-      ftxui::Box click_box;
+      ftxui::Box box;
       ftxui::Box cursor_box;
   };
 }
