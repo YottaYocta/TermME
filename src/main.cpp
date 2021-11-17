@@ -38,7 +38,7 @@ namespace termed
             lines[i] = ftxui::hbox(
               ftxui::text(fmt::format(fmt::runtime(nu_fmt), std::to_string(i))) | ftxui::color(ftxui::Color::Red),
               ftxui::text(temp[i].substr(0, cursor_pos)),
-              ftxui::text(temp[i].substr(cursor_pos, 1)) | ftxui::inverted | ftxui::focus,
+              ftxui::text(temp[i].substr(cursor_pos, 1)) | ftxui::inverted | ftxui::focus | ftxui::reflect(cursor_box),
               ftxui::text(temp[i].substr(std::min(temp[i].size(), cursor_pos + 1)))
             );
           }
@@ -182,8 +182,8 @@ namespace termed
 
         if (e.mouse().button == ftxui::Mouse::Left)
         {
-          line_num = e.mouse().y - click_box.y_min;
-          cursor_pos = std::min(content_ref.get()[line_num].size(), static_cast<std::size_t>(e.mouse().x) - click_box.x_min - max_line_num_length - 2); 
+          line_num = std::max(static_cast<std::size_t>(0), std::min(content_ref.get().size(), static_cast<std::size_t>(e.mouse().y) - cursor_box.y_min + line_num));
+          cursor_pos = std::max(static_cast<std::size_t>(0), std::min(content_ref.get()[line_num].size(), static_cast<std::size_t>(e.mouse().x) - cursor_box.x_min  + cursor_pos));
           return true;
         }
 
@@ -220,6 +220,7 @@ namespace termed
       std::size_t line_num;
       ftxui::Box scroll_box;
       ftxui::Box click_box;
+      ftxui::Box cursor_box;
   };
 }
 
