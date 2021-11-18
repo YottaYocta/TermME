@@ -9,14 +9,15 @@ A markdown note-taking program for the terminal
 
 # Installation
 
-Currently, only MacOS as a dedicated installation method via the package manager _Homebrew_.
+MacOS and Linux both have a dedicated installation method via the package manager _Homebrew_
 
 ```
 brew upgrade && brew tap yottayocta/TermME
 brew install TermME
 ```
 
-Other operating systems (Linux and Windows) must download the executable files from the _releases_ section.
+Windows users must download the executable files from the _releases_ section.
+
 
 # Basic Usage
 
