@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.20)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-project(termed)
+project(termME)
 
 include(FetchContent)
 set(FETCHCONTENT_UPDATES_DISCONNETED TRUE)
@@ -22,14 +22,14 @@ FetchContent_Declare(fmt
 
 FetchContent_MakeAvailable(ftxui fmt)
 
-# termed
+# termME
 
 set(SRCS
   src/main.cpp
 )
-add_executable(termed ${SRCS})
-target_include_directories(termed PRIVATE include)
-target_link_libraries(termed
+add_executable(termME ${SRCS})
+target_include_directories(termME PRIVATE include)
+target_link_libraries(termME
   PRIVATE ftxui::screen
   PRIVATE ftxui::dom
   PRIVATE ftxui::component
