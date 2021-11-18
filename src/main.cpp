@@ -13,7 +13,7 @@
 
 #include <fmt/core.h>
 
-namespace termme
+namespace TermME
 {
 
   class editable_widget : public ftxui::ComponentBase
@@ -257,7 +257,7 @@ int main(int argc, char* argv[])
   }
 
   
-  ftxui::Component edit_pane {std::make_shared<termme::editable_widget>(content)};
+  ftxui::Component edit_pane {std::make_shared<TermME::editable_widget>(content)};
   ftxui::Component renderer {ftxui::Renderer(edit_pane, [&]{
     return edit_pane->Render();
   })};
