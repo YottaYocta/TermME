@@ -14,8 +14,8 @@ jobs:
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.4
         with:
-          name: termed_MacOS
-          path: ./termed*
+          name: TermME_MacOS
+          path: ./TermME*
   build-windows:
     runs-on: windows-latest
     steps:
@@ -27,8 +27,8 @@ jobs:
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.4
         with:
-          name: termed_Windows
-          path: ./termed*
+          name: TermME_Windows
+          path: ./TermME*
   build-ubuntu:
     runs-on: ubuntu-latest
     steps:
@@ -40,5 +40,5 @@ jobs:
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.4
         with:
-          name: termed_Ubuntu
-          path: ./termed*
+          name: TermME_Ubuntu
+          path: ./TermME*
