@@ -16,10 +16,10 @@
 namespace termed
 {
 
-  class editable : public ftxui::ComponentBase
+  class editable_widget : public ftxui::ComponentBase
   {
     public:
-      editable(std::reference_wrapper<std::vector<std::string>> content) : content_ref {content},
+      editable_widget(std::reference_wrapper<std::vector<std::string>> content) : content_ref {content},
                                                               line_num {0},
                                                               cursor_pos {0},
                                                               max_line_num_length {1} {}
@@ -38,7 +38,7 @@ namespace termed
             lines[i] = ftxui::hbox(
               ftxui::text(fmt::format(fmt::runtime(nu_fmt), std::to_string(i))) | ftxui::color(ftxui::Color::Red),
               ftxui::text(temp[i].substr(0, cursor_pos)),
-              ftxui::text(temp[i].substr(cursor_pos, 1)) | ftxui::inverted | ftxui::focus,
+              ftxui::text(temp[i].substr(cursor_pos, 1)) | ftxui::inverted | ftxui::focus | ftxui::reflect(cursor_box),
               ftxui::text(temp[i].substr(std::min(temp[i].size(), cursor_pos + 1)))
             );
           }
@@ -50,7 +50,7 @@ namespace termed
             );
           }
         }
-        return ftxui::vbox(ftxui::vbox(lines) | ftxui::reflect(click_box) | ftxui::frame, ftxui::filler()) | ftxui::reflect(scroll_box) | ftxui::border;
+        return ftxui::vbox(ftxui::vbox(lines) | ftxui::reflect(box) | ftxui::frame, ftxui::filler()) | ftxui::reflect(box) | ftxui::border;
       }
 
       bool OnEvent(ftxui::Event e) override
@@ -157,7 +157,7 @@ namespace termed
 
       bool OnWheel(ftxui::Event e)
       {
-        if (!scroll_box.Contain(e.mouse().x, e.mouse().y))
+        if (!box.Contain(e.mouse().x, e.mouse().y))
           return false;
         if (e.mouse().button == ftxui::Mouse::WheelDown)
         {
@@ -175,15 +175,15 @@ namespace termed
 
       bool OnClick(ftxui::Event e)
       {
-        if (!click_box.Contain(e.mouse().x, e.mouse().y))
+        if (!box.Contain(e.mouse().x, e.mouse().y))
           return false;
 
         TakeFocus();
 
         if (e.mouse().button == ftxui::Mouse::Left)
         {
-          line_num = e.mouse().y - click_box.y_min;
-          cursor_pos = std::min(content_ref.get()[line_num].size(), static_cast<std::size_t>(e.mouse().x) - click_box.x_min - max_line_num_length - 2); 
+          line_num = std::max(static_cast<std::size_t>(0), std::min(content_ref.get().size(), static_cast<std::size_t>(e.mouse().y) - cursor_box.y_min + line_num));
+          cursor_pos = std::max(static_cast<std::size_t>(0), std::min(content_ref.get()[line_num].size(), static_cast<std::size_t>(e.mouse().x) - cursor_box.x_min  + cursor_pos));
           return true;
         }
 
@@ -218,8 +218,8 @@ namespace termed
       int max_line_num_length {};
       std::size_t cursor_pos; 
       std::size_t line_num;
-      ftxui::Box scroll_box;
-      ftxui::Box click_box;
+      ftxui::Box box;
+      ftxui::Box cursor_box;
   };
 }
 
@@ -257,7 +257,7 @@ int main(int argc, char* argv[])
   }
 
   
-  ftxui::Component edit_pane {std::make_shared<termed::editable>(content)};
+  ftxui::Component edit_pane {std::make_shared<termed::editable_widget>(content)};
   ftxui::Component renderer {ftxui::Renderer(edit_pane, [&]{
     return edit_pane->Render();
   })};
