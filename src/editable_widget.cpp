@@ -8,7 +8,6 @@ namespace TermME
   editable_widget::editable_widget(std::reference_wrapper<std::vector<std::string>> content) : content_ref {content},
     line_num {0},
     cursor_pos {0},
-    tab_depth {0},
     max_line_num_length {1} {}
 
   ftxui::Element editable_widget::Render()
@@ -47,12 +46,10 @@ namespace TermME
 
     if (e == ftxui::Event::Backspace)
     {
-      if (tab_depth > 0 && 
-            cursor_pos >= 2 && 
-            content_ref.get()[line_num][cursor_pos - 1] == ' ' && 
-            content_ref.get()[line_num][cursor_pos - 2] == ' ')
+      if (cursor_pos >= 2 && 
+          content_ref.get()[line_num][cursor_pos - 1] == ' ' && 
+          content_ref.get()[line_num][cursor_pos - 2] == ' ')
       {
-        tab_depth--;
         untab();
         return true;
       }
@@ -99,7 +96,10 @@ namespace TermME
       max_line_num_length = std::to_string(content_ref.get().size()).size();
       cursor_pos = 0;
       line_num++;
-      for (int i {0}; i < tab_depth; i++)
+      std::size_t spaces {content_ref.get()[line_num - 1].find_first_not_of(' ')}; 
+      if (spaces == std::string::npos)
+        spaces = 0;
+      for (int i {0}; i < spaces / 2; i++)
         tab();
       return true;
     }
@@ -108,8 +108,6 @@ namespace TermME
     {
       if (cursor_pos % 2 == 0)
       {
-        if (cursor_pos == tab_depth * 2)
-          tab_depth++;
         tab();
       }
       else
@@ -184,7 +182,7 @@ namespace TermME
 
   void editable_widget::move_cursor_right(std::size_t chars)
   {
-    cursor_pos += std::min(content_ref.get()[line_num].size() - 1 - cursor_pos, chars);
+    cursor_pos += std::min(content_ref.get()[line_num].size() - cursor_pos, chars);
   }
 
   void editable_widget::move_cursor_up(std::size_t chars)

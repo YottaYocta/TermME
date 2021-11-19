@@ -21,21 +21,22 @@ int main(int argc, char* argv[])
   std::vector<std::string> content {};
   std::string temp {};
 
-  std::fstream fio;
+  std::ifstream fin;
+  std::ofstream fout;
+  
+  // opening file
+
   if (argc > 1)
   {
-    fio.open(argv[1], std::ios::in);
-    if (!fio.is_open()) 
-    {
-      fio.open(argv[1], std::ios::out);
-      content.push_back("");
-    }
-    else
-    {
-      while (std::getline(fio, temp))
-        content.push_back(temp);
-      fio.open(argv[1], std::ios::out);
-    }
+    // read
+    fin.open(argv[1]);
+    content.push_back("");
+
+    while (std::getline(fin, temp))
+      content.push_back(temp);
+
+    fin.close();
+    fout.open(argv[1]);
   }
   else
   {
@@ -43,8 +44,8 @@ int main(int argc, char* argv[])
     tm* localtm {std::localtime(&now)};
     std::string timestr {std::string(asctime(localtm))};
     timestr.pop_back();
-    fio.open(timestr + ".md", std::ios::out);
     content.push_back("");
+    fout.open(timestr + ".md");
   }
 
   
@@ -56,9 +57,9 @@ int main(int argc, char* argv[])
   scr.Loop(renderer);
 
   for (int i {0}; i < content.size(); i++)
-    fio << content[i] << '\n';
+    fout << content[i] << '\n';
 
-  fio.close();
+  fout.close();
 
   return 0;
 }
