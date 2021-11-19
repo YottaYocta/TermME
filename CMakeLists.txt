@@ -4,8 +4,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project(TermME)
 
-
-
 include(FetchContent)
 set(FETCHCONTENT_UPDATES_DISCONNETED TRUE)
 
