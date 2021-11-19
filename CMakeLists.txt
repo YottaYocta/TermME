@@ -29,14 +29,13 @@ FetchContent_MakeAvailable(ftxui fmt)
 
 set(SRCS
   src/main.cpp
+  src/editable_widget.cpp
 )
 add_executable(TermME ${SRCS})
 target_include_directories(TermME PRIVATE include)
 target_link_libraries(TermME
-
   PRIVATE ftxui::screen
   PRIVATE ftxui::dom
   PRIVATE ftxui::component
   PRIVATE fmt::fmt
 )
-
