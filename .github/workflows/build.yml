@@ -32,7 +32,7 @@ jobs:
         uses: actions/upload-artifact@v2.2.4
         with:
           name: TermME_Windows
-          path: ./*
+          path: ./TermME*
 
   build-ubuntu:
     runs-on: ubuntu-latest
