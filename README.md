@@ -1,6 +1,9 @@
 # TermME
-
-A markdown note-taking program for the terminal
+![GitHub all releases](https://img.shields.io/github/downloads/YottaYocta/TermME/total?color=%23ac97f8&style=for-the-badge)
+![GitHub](https://img.shields.io/github/license/yottayocta/TermME?color=%23fa8364&style=for-the-badge)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/yottayocta/TermME?style=for-the-badge)
+---
+A markdown editor for the terminal
 
 # Dependencies
 
