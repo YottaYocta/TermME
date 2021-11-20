@@ -5,16 +5,16 @@ namespace TermME
   
   // public
 
-  editable_widget::editable_widget(std::reference_wrapper<std::vector<std::string>> content) : content_ref {content},
+  editable_widget::editable_widget(std::reference_wrapper<std::vector<std::string>> content) : content_widget {content},
     line_num {0},
     cursor_pos {0},
-    max_line_num_length {1} {}
+    line_num_offset {1} {}
 
   ftxui::Element editable_widget::Render()
   {
     std::vector<std::string> temp {content_ref.get()};
     std::string nu_fmt {" {:>} "};
-    nu_fmt.insert(4, std::to_string(max_line_num_length));
+    nu_fmt.insert(4, std::to_string(line_num_offset));
     ftxui::Elements lines (temp.size()); 
     for (std::size_t i {0}; i < temp.size(); i++)
     {
@@ -93,7 +93,7 @@ namespace TermME
       std::string cut {content_ref.get()[line_num].substr(cursor_pos)};
       content_ref.get()[line_num].resize(cursor_pos);
       content_ref.get().insert(content_ref.get().begin() + line_num + 1, cut);
-      max_line_num_length = std::to_string(content_ref.get().size()).size();
+      line_num_offset = std::to_string(content_ref.get().size()).size();
       cursor_pos = 0;
       line_num++;
       std::size_t spaces {content_ref.get()[line_num - 1].find_first_not_of(' ')}; 
@@ -220,7 +220,7 @@ namespace TermME
         line_num--;
         cursor_pos = content_ref.get()[line_num].size();
         content_ref.get()[line_num] += cur_line;
-        max_line_num_length = std::to_string(content_ref.get().size()).size();
+        line_num_offset = std::to_string(content_ref.get().size()).size();
         return true;
       }
       else
