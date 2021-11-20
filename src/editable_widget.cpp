@@ -93,7 +93,7 @@ namespace TermME
       std::string cut {content_ref.get()[line_num].substr(cursor_pos)};
       content_ref.get()[line_num].resize(cursor_pos);
       content_ref.get().insert(content_ref.get().begin() + line_num + 1, cut);
-      line_num_offset = std::to_string(content_ref.get().size()).size();
+      line_num_offset = std::to_string(content_ref.get().size() - 1).size();
       cursor_pos = 0;
       line_num++;
       std::size_t spaces {content_ref.get()[line_num - 1].find_first_not_of(' ')}; 
@@ -220,7 +220,7 @@ namespace TermME
         line_num--;
         cursor_pos = content_ref.get()[line_num].size();
         content_ref.get()[line_num] += cur_line;
-        line_num_offset = std::to_string(content_ref.get().size()).size();
+        line_num_offset = std::to_string(content_ref.get().size() - 1).size();
         return true;
       }
       else
