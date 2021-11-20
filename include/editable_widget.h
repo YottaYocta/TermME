@@ -11,9 +11,11 @@
 #include <ftxui/component/event.hpp>
 #include <fmt/core.h>
 
+#include "content_widget.h"
+
 namespace TermME
 {
-  class editable_widget : public ftxui::ComponentBase
+  class editable_widget : public content_widget
   {
     public: 
       editable_widget(std::reference_wrapper<std::vector<std::string>> content);
@@ -34,9 +36,7 @@ namespace TermME
       void tab();
       void untab();
       
-      std::reference_wrapper<std::vector<std::string>> content_ref;
-      int max_line_num_length;
-      int tab_depth;
+      int line_num_offset;
       std::size_t cursor_pos; 
       std::size_t line_num;
       ftxui::Box box;

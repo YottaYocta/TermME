@@ -3,42 +3,46 @@ name: Build
 on:  
   workflow_dispatch:
 jobs:
+
   build-mac:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: lukka/get-cmake@latest
       - name: build executable
         run: |
-          cmake .
-          cmake --build .
+          cmake -GNinja .
+          ninja
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.4
         with:
           name: TermME_MacOS
           path: ./TermME*
+
   build-windows:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: microsoft/setup-msbuild@v1.1 
+      - uses: lukka/get-cmake@latest
       - name: build executable
         run: |
-          cmake .
-          cmake --build .
-          msbuild TermME.sln
+          cmake -GNinja .
+          ninja
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.4
         with:
           name: TermME_Windows
           path: ./TermME*
+
   build-ubuntu:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: lukka/get-cmake@latest
       - name: build executable
         run: |
-          cmake .
-          cmake --build .
+          cmake -GNinja .
+          ninja
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.4
         with:
